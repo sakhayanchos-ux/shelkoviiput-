@@ -111,7 +111,7 @@
             <th>Ужин<br>5🍃</th><th>Сторис<br>5🍃</th><th>Репост<br>5🍃</th>
             <th>ШП<br>10🍃</th><th>ДругШП<br>10🍃</th><th>АУ/ВВ<br>10🍃</th>
             <th>ДругВВ<br>10🍃</th>
-            <th>Чек-ап<br>30🍃</th><th>👣Шаги<br>1🍃/500</th><th>Абонем<br>30🍃</th>
+            <th>Чек-ап<br>30🍃</th><th>👣Шаги<br>1🍃/500</th><th>Абонем<br>3/10/30🍃</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -187,7 +187,7 @@
     const DAYS = ['Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
     
     // [VP, шёлк, турбо, ужин, сторис(кол), репост(кол), шп, другШП(кол), ау, другВВ(кол), чекАп(кол), шаги(кол), абонемент]
-    let tableData = DATES.map(() => ['', false, false, false, 0, 0, false, 0, false, 0, 0, 0, false]);
+    let tableData = DATES.map(() => ['', false, false, false, 0, 0, false, 0, false, 0, 0, 0, 0]);
     
     function load() {
       const s = localStorage.getItem(STORAGE_KEY);
@@ -239,7 +239,7 @@
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="9" value="${row[9]||0}" placeholder="0"></td>`;
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="10" value="${row[10]||0}" placeholder="0"></td>`;
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="11" value="${row[11]||0}" placeholder="0" style="width:42px;"></td>`;
-        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="12" ${row[12]?'checked':''}></td>`;
+        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="12" value="${row[12]||0}" placeholder="0"></td>`;
         html += `</tr>`;
       }
       document.getElementById('tableBody').innerHTML = html;
@@ -273,8 +273,8 @@
         total += tableData[i][10] * 30;
         tableData[i][11] = parseInt(tr.querySelector('[data-col="11"]')?.value) || 0;
         total += Math.floor(tableData[i][11] / 500);
-        tableData[i][12] = tr.querySelector('[data-col="12"]')?.checked || false;
-        if(tableData[i][12]) total += 30;
+        tableData[i][12] = parseInt(tr.querySelector('[data-col="12"]')?.value) || 0;
+total += tableData[i][12] * 30;
       });
       
       if(document.getElementById('efir')?.checked) total += 20;
