@@ -45,17 +45,17 @@
     .weight-result { font-weight: 700; color: #8B3A3A; font-size: 0.85rem; }
     
     .table-container { overflow-x: auto; border-radius: 14px; border: 1px solid #DAA520; margin-top: 6px; }
-    table { border-collapse: collapse; font-size: 0.42rem; width: 100%; min-width: 950px; }
+    table { border-collapse: collapse; font-size: 0.4rem; width: 100%; min-width: 1050px; }
     th { background: #8B3A3A; color: #FFF5E6; padding: 5px 1px; font-weight: 600; text-align: center; white-space: nowrap; }
     td { padding: 3px 1px; border-bottom: 1px solid #DAA520; text-align: center; background: rgba(255, 245, 230, 0.9); }
     .sticky-col { position: sticky; left: 0; background: #F5E6C8; z-index: 2; }
     th.sticky-col { background: #8B3A3A; z-index: 3; }
-    .sticky-col2 { position: sticky; left: 48px; background: #F5E6C8; z-index: 2; }
+    .sticky-col2 { position: sticky; left: 45px; background: #F5E6C8; z-index: 2; }
     th.sticky-col2 { background: #8B3A3A; z-index: 3; }
-    td input { width: 38px; padding: 2px; text-align: center; border: 1px solid #DAA520; border-radius: 4px; font-size: 0.4rem; color: #3D2B1A; background: #FFF5E6; }
-    td input[type="checkbox"] { width: 14px; height: 14px; accent-color: #8B3A3A; }
-    .date-col { font-weight: 600; color: #8B3A3A; font-size: 0.48rem; }
-    .day-col { font-weight: 500; color: #B8860B; font-size: 0.42rem; }
+    td input { width: 35px; padding: 2px; text-align: center; border: 1px solid #DAA520; border-radius: 4px; font-size: 0.38rem; color: #3D2B1A; background: #FFF5E6; }
+    td input[type="checkbox"] { width: 13px; height: 13px; accent-color: #8B3A3A; }
+    .date-col { font-weight: 600; color: #8B3A3A; font-size: 0.45rem; }
+    .day-col { font-weight: 500; color: #B8860B; font-size: 0.4rem; }
     
     .special-block { background: rgba(218,165,32,0.12); border-radius: 14px; padding: 10px; margin: 8px 0; border: 1px solid #DAA520; }
     .special-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
@@ -108,9 +108,10 @@
           <tr>
             <th class="sticky-col">📅</th><th class="sticky-col2">День</th>
             <th>1 VP<br>=1🍃</th><th>Шёлк<br>5🍃</th><th>Турбо<br>5🍃</th>
-            <th>Ужин<br>5🍃</th><th>Сторис<br>5🍃</th><th>ШП<br>10🍃</th>
-            <th>ДругШП<br>10🍃</th><th>АУ/ВВ<br>10🍃</th><th>ДругВВ<br>10🍃</th>
-            <th>Чек-ап<br>30🍃</th><th>👣Шаги<br>1🍃/500</th>
+            <th>Ужин<br>5🍃</th><th>Сторис<br>5🍃</th><th>Репост<br>5🍃</th>
+            <th>ШП<br>10🍃</th><th>ДругШП<br>10🍃</th><th>АУ/ВВ<br>10🍃</th>
+            <th>ДругВВ<br>10🍃</th>
+            <th>Чек-ап<br>30🍃</th><th>👣Шаги<br>1🍃/500</th><th>Абонем<br>30🍃</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -185,8 +186,8 @@
     const DATES = ['12.05','13.05','14.05','15.05','16.05','17.05','18.05','19.05','20.05','21.05','22.05','23.05🎓'];
     const DAYS = ['Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
     
-    // [VP, шёлк, турбо, ужин, сторис(кол), шп, другШП(кол), ау, другВВ(кол), чекАп(кол), шаги(кол)]
-    let tableData = DATES.map(() => ['', false, false, false, 0, false, 0, false, 0, 0, 0]);
+    // [VP, шёлк, турбо, ужин, сторис(кол), репост(кол), шп, другШП(кол), ау, другВВ(кол), чекАп(кол), шаги(кол), абонемент]
+    let tableData = DATES.map(() => ['', false, false, false, 0, 0, false, 0, false, 0, 0, 0, false]);
     
     function load() {
       const s = localStorage.getItem(STORAGE_KEY);
@@ -231,12 +232,14 @@
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="0" value="${row[0]||''}" placeholder="0"></td>`;
         for(let j=1; j<=3; j++) html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="${j}" ${row[j]?'checked':''}></td>`;
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="4" value="${row[4]||0}" placeholder="0"></td>`;
-        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="5" ${row[5]?'checked':''}></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="6" value="${row[6]||0}" placeholder="0"></td>`;
-        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="7" ${row[7]?'checked':''}></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="8" value="${row[8]||0}" placeholder="0"></td>`;
+        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="5" value="${row[5]||0}" placeholder="0"></td>`;
+        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="6" ${row[6]?'checked':''}></td>`;
+        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="7" value="${row[7]||0}" placeholder="0"></td>`;
+        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="8" ${row[8]?'checked':''}></td>`;
         html += `<td><input type="number" class="tbl" data-day="${i}" data-col="9" value="${row[9]||0}" placeholder="0"></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="10" value="${row[10]||0}" placeholder="0" style="width:45px;"></td>`;
+        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="10" value="${row[10]||0}" placeholder="0"></td>`;
+        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="11" value="${row[11]||0}" placeholder="0" style="width:42px;"></td>`;
+        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="12" ${row[12]?'checked':''}></td>`;
         html += `</tr>`;
       }
       document.getElementById('tableBody').innerHTML = html;
@@ -256,24 +259,28 @@
         });
         tableData[i][4] = parseInt(tr.querySelector('[data-col="4"]')?.value) || 0;
         total += tableData[i][4] * 5;
-        tableData[i][5] = tr.querySelector('[data-col="5"]')?.checked || false;
-        if(tableData[i][5]) total += 10;
-        tableData[i][6] = parseInt(tr.querySelector('[data-col="6"]')?.value) || 0;
-        total += tableData[i][6] * 10;
-        tableData[i][7] = tr.querySelector('[data-col="7"]')?.checked || false;
-        if(tableData[i][7]) total += 10;
-        tableData[i][8] = parseInt(tr.querySelector('[data-col="8"]')?.value) || 0;
-        total += tableData[i][8] * 10;
+        tableData[i][5] = parseInt(tr.querySelector('[data-col="5"]')?.value) || 0;
+        total += tableData[i][5] * 5;
+        tableData[i][6] = tr.querySelector('[data-col="6"]')?.checked || false;
+        if(tableData[i][6]) total += 10;
+        tableData[i][7] = parseInt(tr.querySelector('[data-col="7"]')?.value) || 0;
+        total += tableData[i][7] * 10;
+        tableData[i][8] = tr.querySelector('[data-col="8"]')?.checked || false;
+        if(tableData[i][8]) total += 10;
         tableData[i][9] = parseInt(tr.querySelector('[data-col="9"]')?.value) || 0;
-        total += tableData[i][9] * 30;
+        total += tableData[i][9] * 10;
         tableData[i][10] = parseInt(tr.querySelector('[data-col="10"]')?.value) || 0;
-        total += Math.floor(tableData[i][10] / 500);
+        total += tableData[i][10] * 30;
+        tableData[i][11] = parseInt(tr.querySelector('[data-col="11"]')?.value) || 0;
+        total += Math.floor(tableData[i][11] / 500);
+        tableData[i][12] = tr.querySelector('[data-col="12"]')?.checked || false;
+        if(tableData[i][12]) total += 30;
       });
       
-      if(document.getElementById('efir')?.checked) total += 10;
-      total += (parseInt(document.getElementById('efirFriends')?.value)||0) * 10;
+      if(document.getElementById('efir')?.checked) total += 20;
+      total += (parseInt(document.getElementById('efirFriends')?.value)||0) * 20;
       if(document.getElementById('hike')?.checked) total += 20;
-      total += (parseInt(document.getElementById('hikeFriends')?.value)||0) * 10;
+      total += (parseInt(document.getElementById('hikeFriends')?.value)||0) * 20;
       if(document.getElementById('dance1')?.checked) total += 30;
       total += (parseInt(document.getElementById('dance1Friends')?.value)||0) * 30;
       if(document.getElementById('dance2')?.checked) total += 30;
